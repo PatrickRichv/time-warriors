@@ -67,12 +67,22 @@ netstat -ano | findstr /C:":3002 "
 
 Si hay un proceso ajeno, ciérralo o cambia el puerto antes de arrancar. La app ahora muestra un aviso persistente con botón **Reintentar** cuando pierde la conexión, y `npm run dev` se detiene si la API no puede iniciar (en lugar de dejar una web rota).
 
+## Demo en vivo
+
+**https://time-warriors.onrender.com**
+
+Está desplegado en Render con el plan gratuito: el servicio **se suspende tras 15 minutos sin uso** y tarda unos 50 segundos en despertar, así que conviene abrir la URL unos minutos antes de la clase.
+
 ## Despliegue en Render
 
-1. Sube esta carpeta a un repositorio nuevo de GitHub (no incluyas `.env`).
-2. En Render selecciona **New + → Blueprint** y conecta el repositorio. Render leerá `render.yaml`, creará el servicio y PostgreSQL, y asignará `DATABASE_URL`.
-3. Cuando termine, abre la URL `https://time-warriors-...onrender.com`. El servicio usa `npm start`, que entrega el frontend compilado y la API.
-4. Si prefieres crear todo manualmente: Web Service, Runtime Node, Build `npm ci && npm run build`, Start `npm start`; añade una base PostgreSQL y configura `DATABASE_URL` con su Internal Database URL.
+1. Sube esta carpeta a un repositorio de GitHub (no incluyas `.env`).
+2. En Render selecciona **New + → Blueprint** y conecta el repositorio. Render leerá `render.yaml` y creará el servicio web.
+3. Cuando termine, abre la URL `https://time-warriors.onrender.com`. El servicio usa `npm start`, que entrega el frontend compilado y la API.
+4. Cada `git push` a `main` vuelve a desplegar automáticamente.
+
+El blueprint no crea base de datos: las salas y el ranking de la partida viven en memoria y funcionan perfecto, pero el ranking histórico se reinicia cuando Render reinicia el servicio. Si quieres persistencia, añade una instancia PostgreSQL en Render y define `DATABASE_URL` con su *Internal Database URL*; el servidor crea la tabla `scores` automáticamente.
+
+Si prefieres crear el servicio a mano: Web Service, runtime Node, build `npm ci --include=dev && npm run build`, start `npm start`, health check `/api/health`.
 
 ## Código QR
 
