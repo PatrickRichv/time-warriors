@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "concurrently --kill-others \"npm:dev:api\" \"npm:dev:web\"",
     "dev:api": "node --watch-path=server server/index.js",
